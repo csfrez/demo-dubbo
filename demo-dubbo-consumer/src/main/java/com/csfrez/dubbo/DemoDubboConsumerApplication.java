@@ -10,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Date;
+
 @SpringBootApplication
 public class DemoDubboConsumerApplication {
 
@@ -24,7 +26,18 @@ public class DemoDubboConsumerApplication {
 
 	@Bean
 	public ApplicationRunner runner() {
-		return args -> logger.info(demoService.sayHello("csfrez"));
+		return args -> {
+			new Thread(()-> {
+				while (true) {
+					try {
+						Thread.sleep(1000);
+						System.out.println(new Date() + " Receive result ======> " + demoService.sayHello("csfrez"));
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+						Thread.currentThread().interrupt();
+					}
+				}
+			}).start();
+		};
 	}
-
 }

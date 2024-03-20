@@ -1,6 +1,7 @@
 package com.csfrez.dubbo;
 
 import com.csfrez.dubbo.api.DemoService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +13,8 @@ import org.springframework.context.annotation.Bean;
 import java.util.Date;
 
 @SpringBootApplication
+@Slf4j
 public class DemoDubboConsumerApplication {
-
-	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	@DubboReference(version = "${demo.service.version}")
 	private DemoService demoService;
@@ -27,10 +27,10 @@ public class DemoDubboConsumerApplication {
 	public ApplicationRunner runner() {
 		return args -> {
 			new Thread(()-> {
-				while (true) {
+				for (int i=0; i<10; i++) {
 					try {
 						Thread.sleep(1000);
-						System.out.println(new Date() + " Receive result ======> " + demoService.sayHello("csfrez"));
+						log.info(" Receive result ======> " + demoService.sayHello("csfrez"));
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 						Thread.currentThread().interrupt();

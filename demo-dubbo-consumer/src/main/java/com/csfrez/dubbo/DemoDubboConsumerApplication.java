@@ -30,7 +30,7 @@ public class DemoDubboConsumerApplication {
 			new Thread(()-> {
 				while (true) {
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(5000);
 						System.out.println(new Date() + " Receive result ======> " + demoService.sayHello("csfrez"));
 					} catch (InterruptedException e) {
 						e.printStackTrace();
